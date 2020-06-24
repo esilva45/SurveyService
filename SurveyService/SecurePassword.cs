@@ -6,11 +6,11 @@ using System.Text;
 namespace SurveyService {
     class SecurePassword {
         public static class Global {
-            public const String strPermutation = "ouiveyxaqtd";
-            public const Int32 bytePermutation1 = 0x19;
-            public const Int32 bytePermutation2 = 0x59;
-            public const Int32 bytePermutation3 = 0x17;
-            public const Int32 bytePermutation4 = 0x41;
+            public const string strPermutation = "ouiveyxaqtd";
+            public const int bytePermutation1 = 0x19;
+            public const int bytePermutation2 = 0x59;
+            public const int bytePermutation3 = 0x17;
+            public const int bytePermutation4 = 0x41;
         }
 
         public static string Encrypt(string strData) {

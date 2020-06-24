@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <config>
+  <LicenseKey></LicenseKey>
   <DBHost>localhost</DBHost>
   <DBPort>5432</DBPort>
   <DBUser>postgres</DBUser>
@@ -9,4 +10,8 @@
   <UrlService>http://169.57.165.27/api/rsurvey.php</UrlService>
   <PathLog>C:\SurveyService\logs\</PathLog>
   <PathFile>C:\SurveyService\</PathFile>
+  <!-- Caminho do arquivo CDR -->
+  <CDRFile></CDRFile>
+  <!-- Use true para quando tiver fila e false para quando não tiver -->
+  <WithQueue></WithQueue>
 </config>

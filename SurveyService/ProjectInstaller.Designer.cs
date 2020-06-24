@@ -28,7 +28,7 @@
             // 
             // serviceProcessInstaller1
             // 
-            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalService;
+            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
             this.serviceProcessInstaller1.Password = null;
             this.serviceProcessInstaller1.Username = null;
             // 
@@ -37,6 +37,7 @@
             this.serviceInstaller.Description = "Serviço de pesquisa de satisfação";
             this.serviceInstaller.DisplayName = "Serviço de pesquisa de satisfação";
             this.serviceInstaller.ServiceName = "SurveyService";
+            this.serviceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
