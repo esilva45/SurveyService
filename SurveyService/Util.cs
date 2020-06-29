@@ -6,7 +6,7 @@ using System.Xml.Linq;
 namespace SurveyService {
     class Util {
         public static string FindDirectory(string extension, string source, string call_id) {
-            XElement configXml = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + @"config.xml");
+            XElement configXml = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "config.xml");
             string patch = configXml.Element("PathFile").Value.ToString();
             string result = extension + "/file%20not%20found";
             string file_name = "";
@@ -39,11 +39,11 @@ namespace SurveyService {
         }
 
         public static void Log(string lines) {
-            VerifyDir(AppDomain.CurrentDomain.BaseDirectory + @"logs");
+            VerifyDir(AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "logs");
             string fileName = DateTime.Now.Day.ToString("00") + DateTime.Now.Month.ToString("00") + DateTime.Now.Year.ToString() + "_Logs.out";
 
             try {
-                StreamWriter file = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + @"logs" + Path.DirectorySeparatorChar + fileName, true);
+                StreamWriter file = new StreamWriter(AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "logs" + Path.DirectorySeparatorChar + fileName, true);
                 file.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss:fff", CultureInfo.InvariantCulture) + " " + lines);
                 file.Close();
             }

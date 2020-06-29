@@ -6,7 +6,7 @@ using System.IO;
 namespace SurveyService {
     class License {
         private static readonly string pwd = "PuR@94zG";
-        private static readonly string fileName = AppDomain.CurrentDomain.BaseDirectory + @"license.lic";
+        private static readonly string fileName = AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "license.lic";
 
         public static void LicenseGenerator() {
             string uuid = Guid.NewGuid().ToString() + Environment.ProcessorCount + Environment.MachineName + Environment.OSVersion.Platform

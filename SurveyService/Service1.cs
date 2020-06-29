@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.ServiceProcess;
 using System.Threading;
 using System.Xml.Linq;
@@ -12,11 +13,13 @@ namespace SurveyService {
         }
 
         protected override void OnStart(string[] args) {
-            XElement configXml = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + @"config.xml");
+            XElement configXml = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "config.xml");
             string license = configXml.Element("LicenseKey").Value.ToString();
+            Console.WriteLine("license " + license);
 
             if (!License.VerifyLicence(license)) {
-                this.Stop();
+                //this.Stop();
+                Environment.Exit(0);
             }
 
             _timer = new Timer(ProcessorManager, null, 0, 60000);

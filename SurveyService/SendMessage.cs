@@ -16,7 +16,7 @@ namespace SurveyService {
         public static void Message() {
             NpgsqlConnection conn = Connection.GetConnection();
             CallModel call = new CallModel();
-            XElement configXml = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + @"config.xml");
+            XElement configXml = XElement.Load(AppDomain.CurrentDomain.BaseDirectory + Path.DirectorySeparatorChar + "config.xml");
             urlligacao = configXml.Element("UrlLigacao").Value.ToString();
             urlservice = configXml.Element("UrlService").Value.ToString();
             cdr_file = configXml.Element("CDRFile").Value.ToString();
@@ -62,8 +62,7 @@ namespace SurveyService {
 
                 if (ids != "") {
                     ids = ids.Trim().Replace(" ", ",");
-                    NpgsqlCommand cmd = new NpgsqlCommand("update survey set processed = true where survey_id in (" + ids + ")", conn);
-                    cmd.ExecuteReader();
+                    Update("", ids, "send");
                 }
 
                 query = "select survey_id, call_id, question_id " +
@@ -85,18 +84,42 @@ namespace SurveyService {
                                 extension_id = string.Join("", System.Text.RegularExpressions.Regex.Split(words[8], @"[^\d]"));
                             }
 
-                            NpgsqlCommand cmd = new NpgsqlCommand("update survey set extension_id = '" + extension_id + "' where survey_id = " + rd1["survey_id"], conn);
-                            cmd.ExecuteNonQuery();
-                            extension_id = "";
+                            if (extension_id != "") {
+                                Update(extension_id, rd1["survey_id"].ToString(), "search");
+                                extension_id = "";
+                            }
                         }
                     }
                 }
 
                 rd1.Close();
-
             }
             catch (Exception ex) {
-                Util.Log(ex.ToString());
+                Util.Log("Message: " + ex.ToString());
+            }
+            finally {
+                if (conn != null) {
+                    conn.Close();
+                }
+            }
+        }
+
+        private static void Update(string extension, string id, string action) {
+            NpgsqlConnection conn = Connection.GetConnection();
+            string query = "";
+
+            try {
+                if (action.Equals("send")) {
+                    query = "update survey set processed = true where survey_id in (" + id + ")";               
+                } else {
+                    query = "update survey set extension_id = " + extension + " where survey_id = " + id;
+                }
+
+                NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex) {
+                Util.Log("Update: " + ex.ToString());
             }
             finally {
                 if (conn != null) {
@@ -134,7 +157,7 @@ namespace SurveyService {
                 }
             }
             catch (Exception ex) {
-                Util.Log(ex.ToString());
+                Util.Log("Send: " + ex.ToString());
             }
 
             return code;
